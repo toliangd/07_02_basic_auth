@@ -9,16 +9,11 @@ static void fn(struct mg_connection *c, int ev, void *ev_data, void *fn_data) {
   }
 
   struct mg_http_message *hm = (struct mg_http_message *) ev_data;  
-  struct mg_str *user_token = mg_http_get_header(hm, "X-Auth-Token");
+  struct mg_str *basic_auth = mg_http_get_header(hm, "Authorization");
   if (user_token == NULL) {
     mg_http_reply(c, 401, "", "%s\n", "Not authenticated");
     return;
   }
-
-  if(mg_strcmp(access_token, *user_token) != 0) {
-    mg_http_reply(c, 403, "", "%s\n", "Not authorized");
-    return;
-  } 
 
   mg_http_reply(c, 200, "", "%s\n", "It works!");
 }
