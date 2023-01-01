@@ -10,7 +10,7 @@ static void fn(struct mg_connection *c, int ev, void *ev_data, void *fn_data) {
 
   struct mg_http_message *hm = (struct mg_http_message *) ev_data;  
   struct mg_str *basic_auth = mg_http_get_header(hm, "Authorization");
-  if (user_token == NULL) {
+  if (basic_auth == NULL) {
     mg_http_reply(c, 401, "", "%s\n", "Not authenticated");
     return;
   }
